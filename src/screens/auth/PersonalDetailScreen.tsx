@@ -97,7 +97,7 @@ const PersonalDetailScreen = () => {
         />
         <CustomDateInput
         label = "DATE OF BIRTH"
-        error = {errors?.date_of_birth}
+        error = {errors?.age}
         onDateChange = {(text : string)=>{
           handleOnChange(text, 'date_of_birth')
         }}

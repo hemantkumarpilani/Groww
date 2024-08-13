@@ -1,29 +1,30 @@
-import { Animated, Platform, StyleSheet, Text, View, useColorScheme } from "react-native";
+import { Animated, Platform, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
-import Icon2 from "react-native-vector-icons/Ionicons";
 import { useTheme } from "@react-navigation/native";
+import Icon2 from "react-native-vector-icons/Ionicons";
 import { Colors } from "../../constants/Colors";
 import CustomText from "../global/CustomText";
 import { FONTS } from "../../constants/Fonts";
 import { RFValue } from "react-native-responsive-fontsize";
 
-interface OTPInputProps {
+interface OTPInputCenteredProps {
   otpValues: any;
   focusedIndex: number;
   error?: string | null;
 }
 
-const OtpInput: React.FC<OTPInputProps> = ({
-  error,
-  otpValues,
+const OTPInputCentered: React.FC<OTPInputCenteredProps> = ({
   focusedIndex,
+  otpValues,
+  error,
 }) => {
+  console.log('errors', error)
   const { colors } = useTheme();
   const [shakeAnimation] = useState(new Animated.Value(0));
-  const theme = useColorScheme();
 
   useEffect(() => {
     if (error) {
+      console.log('if')
       shake();
     }
   }, [error]);
@@ -50,7 +51,7 @@ const OtpInput: React.FC<OTPInputProps> = ({
         duration: 50,
         useNativeDriver: true,
       }),
-    ]);
+    ]).start();
   };
   return (
     <>
@@ -64,52 +65,48 @@ const OtpInput: React.FC<OTPInputProps> = ({
                 {
                   borderColor: error
                     ? Colors.errorColor
-                    : focusedIndex === index
-                    ? colors.text
-                    : otpValues[index] !== ""
+                    : otpValues[index] != ""
                     ? Colors.profit
-                    : theme == "dark"
-                    ? "#4f4e4a"
-                    : "#ccc",
-                    borderWidth: focusedIndex === index ? 2 : 1,
-                    transform:[{translateX : shakeAnimation}]
+                    : colors.notification,
+                  borderBottomWidth: focusedIndex === index ? 2 : 1,
+                  transform: [{ translateX: shakeAnimation }],
                 },
               ]}
             >
-                <CustomText style={{
-                    color: otpValues[index] != "" ? Colors.profit : colors.text,
+              <CustomText
+                style={{
+                  color: otpValues[index] !== "" ? Colors.profit : colors.text,
                 }}
                 fontFamily={FONTS.Number}
                 variant="h5"
-                >
-                    {text}
-                </CustomText>
+              >
+                {text}
+              </CustomText>
             </Animated.View>
           );
         })}
       </View>
       {error && (
         <View style={styles.errorContainer}>
-            <Icon2 
-            name="information-circle"
+            <Icon2
             size={RFValue(13)}
+            name="information-circle"
             style={styles.errorText}
             />
             <Text style={styles.errorText}>{error}</Text>
         </View>
       )}
-
     </>
   );
 };
 
-export default OtpInput;
+export default OTPInputCentered;
 
 const styles = StyleSheet.create({
   container: {
     flexDirection:"row",
     justifyContent:"flex-start",
-    alignItems:"center",
+    alignItems:'center',
     marginVertical:20
   },
   inputBox: {
@@ -122,14 +119,14 @@ const styles = StyleSheet.create({
     alignItems:'center'
   },
   errorContainer:{
-    flexDirection:'row',
+    flexDirection:"row",
     alignItems:"center",
     marginBottom:3,
     gap:5
   },
   errorText:{
-    color : Colors.errorColor,
-    fontSize: Platform.OS=='ios' ? RFValue(11) : RFValue(11),
+    color: Colors.errorColor,
+    fontSize: Platform.OS ==='ios' ? RFValue(11) : RFValue(11),
     fontFamily:FONTS.Medium
   }
 });

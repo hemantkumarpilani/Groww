@@ -86,7 +86,7 @@ const PersonalDetailScreen = () => {
           handleOnChange(text, "name")
         }}
         />
-         <CustomInput 
+         {/* <CustomInput 
         label="DATE OF BIRTH"
         returnKeyType="done"
         value={inputs.date_of_birth}
@@ -94,7 +94,7 @@ const PersonalDetailScreen = () => {
         onChangeText={(text)=>{
           handleOnChange(text, "date_of_birth")
         }}
-        />
+        /> */}
         <CustomDateInput
         label = "DATE OF BIRTH"
         error = {errors?.age}

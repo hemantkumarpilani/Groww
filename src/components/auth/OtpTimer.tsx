@@ -26,7 +26,6 @@ const OtpTimer : FC<OtpTimerProps> = ({type, onPress, style}) => {
     },[timer])
 
     const handleResend = ()=>{
-        console.log('handleResend')
         setTimer(30);
         // onPress()
     }

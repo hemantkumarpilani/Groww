@@ -30,14 +30,14 @@ const EmailScreen: FC = () => {
     setTimeout(() => {
       if(validate()){
         // if user exist with mail
-        // navigate("EmailPasswordScreen", {
-        //   email : email
-        // })
-
-        // if user does not exist with mail
-        navigate("EmailOtpScreen",{
+        navigate("EmailPasswordScreen", {
           email : email
         })
+
+        // if user does not exist with mail
+        // navigate("EmailOtpScreen",{
+        //   email : email
+        // })
       }
       setLoading(false)
     }, 2000);

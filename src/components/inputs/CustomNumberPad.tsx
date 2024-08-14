@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useTheme } from "@react-navigation/native";
 import CustomText from "../global/CustomText";
@@ -8,6 +8,7 @@ import { Colors } from "../../constants/Colors";
 import { RFValue } from "react-native-responsive-fontsize";
 import TouchableText from "../auth/TouchableText";
 import { screenHeight } from "../../utils/Scaling";
+import {checkBiometrics } from '../../utils/BiometricUtils'
 
 interface NumberPadProps {
   onPressNumber: (number: number | string) => void;
@@ -29,6 +30,12 @@ const CustomNumberPad: React.FC<NumberPadProps> = ({
   onPressBiometric,
 }) => {
   const { colors } = useTheme();
+  const [biometricType, setBiometricType] = useState<string | null>()
+  useEffect(()=>{
+    checkBiometrics().then((bt)=>{
+      setBiometricType(bt)
+    })
+  })
   const renderButton = (label: string | number, onPress: () => void) => {
     return (
       <TouchableOpacity style={styles.button} onPress={onPress}>
@@ -64,11 +71,11 @@ const CustomNumberPad: React.FC<NumberPadProps> = ({
   };
   return (
     <View style={styles.container}>
-      {isBiometric && (
+      {isBiometric && biometricType && (
         <TouchableText
           style={styles.touchText}
           onPress={onPressBiometric}
-          firstText={"Use FaceID"}
+          firstText={`Use ${biometricType == "Biometrics" ? "Fingerprint" : biometricType}`}
         />
       )}
       <View style={styles.row}>

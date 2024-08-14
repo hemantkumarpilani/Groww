@@ -41,6 +41,5 @@ export const darkTheme : Theme = {
 
 export const useCustomTheme = () : Theme =>{
     const scheme = useColorScheme();
-    console.log('scheme', scheme)
     return scheme === 'dark' ? darkTheme : lightTheme
 }

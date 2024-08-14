@@ -31,7 +31,6 @@ const ResetPin = () => {
   }
 
   const handlePressBackspace = ()=>{
-    console.log('handlePressBackspace')
     if(focusedIndex > 0){
       const newOtpValues = [...otpValues]
       newOtpValues[focusedIndex - 1] = ""
@@ -58,17 +57,18 @@ const ResetPin = () => {
       // )
       setTimeout(() => {
         setLoading(false)
+        setFocusedIndex(0)
+      setOtpVerification(true)
       }, 3000);
       
       // setOtpValues(initialState)
-      setFocusedIndex(0)
-      setOtpVerification(true)
+      
     }
   }
 
-  // if(otpVerification){
-  //   return <ResetOtpVerification pin={otpValues.join("")}/>
-  // }
+  if(otpVerification){
+    return <ResetOtpVerification pin={otpValues.join("")}/>
+  }
   return (
     <CustomSafeAreaView>
       <View style={styles.container}>

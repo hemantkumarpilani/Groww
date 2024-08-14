@@ -18,13 +18,11 @@ const OTPInputCentered: React.FC<OTPInputCenteredProps> = ({
   otpValues,
   error,
 }) => {
-  console.log('errors', error)
   const { colors } = useTheme();
   const [shakeAnimation] = useState(new Animated.Value(0));
 
   useEffect(() => {
     if (error) {
-      console.log('if')
       shake();
     }
   }, [error]);

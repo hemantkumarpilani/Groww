@@ -9,6 +9,7 @@ import TouchableText from '../../components/auth/TouchableText'
 import CustomNumberPad from '../../components/inputs/CustomNumberPad'
 import { RFValue } from 'react-native-responsive-fontsize'
 import RoundOTPInput from '../../components/inputs/RoundOTPInput'
+import {loginWithBiometrics} from '../../utils/BiometricUtils'
 
 const initialState = ["","","",""]
 interface BiometricProp {
@@ -24,6 +25,17 @@ const BiometricVerification : FC<BiometricProp> = (
   const [focusedIndex, setFocusedIndex] = useState(0)
   const [loading, setLoading] = useState(false)
   const [otpError, setOtpError] = useState<string | null>(null)
+
+  useEffect(()=>{
+    const allFilled = otpValues.every((value)=> value !="")
+    if(allFilled){
+      handlePressCheckMark()
+    }
+  },[otpValues])
+
+  useEffect(()=>{
+    handleBiometricVerification()
+  }, [])
 
   const handlePressNumber = (number : number | string)=>{
     if(focusedIndex < otpValues.length){
@@ -65,17 +77,18 @@ const BiometricVerification : FC<BiometricProp> = (
         setLoading(false)
         setOtpValues(initialState);
         setFocusedIndex(0)
-        // resetAndNavigate("BottomTab")
-      }, 10000)
+        resetAndNavigate("HomeScreen")
+      }, 2000)
     }
   }
 
-  useEffect(()=>{
-    const allFilled = otpValues.every((value)=> value !="")
-    if(allFilled){
-      handlePressCheckMark()
+  const handleBiometricVerification = async ()=>{
+    const isVerified = await loginWithBiometrics("123123")
+    if(isVerified){
+      setOtpValues(["B","I","O","P"])
     }
-  },[otpValues])
+  }
+
   return (
    <CustomSafeAreaView>
     <View style={styles.container}>
@@ -102,7 +115,7 @@ const BiometricVerification : FC<BiometricProp> = (
 
     <CustomNumberPad
     customFont
-    onPressBiometric={()=>{}}
+    onPressBiometric={()=>{handleBiometricVerification()}}
     isBiometric={true}
     onPressNumber={handlePressNumber}
     onPressBackSpace={handlePressBackSpace}
